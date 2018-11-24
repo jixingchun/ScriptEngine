@@ -291,7 +291,7 @@ Function Test()
     dim a(1)
     a(0) = ""football""
     a(1) = ""baskedball""
-    Test = ModuleA.Run((a))
+    Test = ModuleA.Run(a)
 End Function
 ";
             using (EngineHost engineHost = new EngineHost())
@@ -303,32 +303,21 @@ End Function
             }
         }
 
-        //[TestMethod]
+        [TestMethod]
         public void Excute_Function_Simple_Array_Input()
         {
             string script = @"
         Function Test(names)
-            dim msg
-            If IsArray( names ) Then
-            For i = 0 To UBound(names) Step 1
-                msg = msg & names(i)
-            Next
-            Else
-                msg = ""is not array ""
-            End if
-            Test = msg
+
+            Test = names.ToArray()
         End Function
         ";
             using (EngineHost engineHost = new EngineHost())
             {
-                object balls = new string[2] { "football", "basketball" };
+                string[] balls = new string[2] { "football", "basketball" };
 
                 List<string> list = new List<string>() { "football", "basketball" };
-
-                //DispatchProxy dispatchProxy = engineHost.CreateDispatchProxy(list);
-
-                DispatchProxy dispatchProxy = engineHost.CreateDispatchProxy(balls);
-
+                DispatchProxy dispatchProxy = engineHost.CreateDispatchProxy(list);
                 object actual = engineHost.EvalMethod(script, "Test", dispatchProxy);
                 Assert.AreEqual("footballbasketball", balls);
             }

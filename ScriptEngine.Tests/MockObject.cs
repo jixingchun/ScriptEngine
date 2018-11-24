@@ -53,7 +53,7 @@ namespace ScriptEngine.Tests
 
     public class ModuleA
     {
-        public string Run(object names)
+        public string Run(string[] names)
         {
             using (EngineHost engine = new EngineHost())
             {
